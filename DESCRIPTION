@@ -11,25 +11,25 @@ Description: The single largest source of dams in the United States is the
     data was checked for potential errors and cleaned. This package provides
     sample cleaned data from the NID and provides functionality to access the
     entire cleaned NID data.
-Version: 0.2
+Version: 0.3.0
 Authors@R: c(
     person("Gopi", "Goteti", role = c("aut")),
     person("Joseph", "Stachelek", role = c("aut", "cre"), email = "stachel2@msu.edu")
   )
 URL: https://github.com/jsta/dams
 BugReports: http://www.github.com/jsta/dams/issues
-Imports: RCurl
+Imports: crul, fauxpas, janitor, readxl
 Suggests: ggplot2, maps, mapproj, testthat, knitr, rmarkdown
 License: GPL (>= 2)
 LazyData: true
-Collate: 'data.r' 'extract_nid.r'
-Packaged: 2016-11-05 04:12:38 UTC; jose
 Depends: R (>= 2.10)
 NeedsCompilation: no
-Repository: CRAN
-Date/Publication: 2016-11-05 20:06:21
-RoxygenNote: 5.0.1
+RoxygenNote: 7.1.0
 VignetteBuilder: knitr
+Encoding: UTF-8
+Packaged: 2020-05-20 15:43:40 UTC; jose
 Author: Gopi Goteti [aut],
   Joseph Stachelek [aut, cre]
 Maintainer: Joseph Stachelek <stachel2@msu.edu>
+Repository: CRAN
+Date/Publication: 2020-05-20 16:00:03 UTC

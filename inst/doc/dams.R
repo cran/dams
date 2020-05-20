@@ -1,47 +1,45 @@
-## ----message=FALSE-------------------------------------------------------
+## ----message=FALSE------------------------------------------------------------
 require(dams)
 require(ggplot2)
 require(maps)
 require(mapproj)
 
-## ------------------------------------------------------------------------
-dams_all <- nid_cleaned
+## -----------------------------------------------------------------------------
+dim(nid_subset)
 
-dim(dams_all)
+head(nid_subset, 3)
 
-head(dams_all, 3)
-
-## ------------------------------------------------------------------------
-gfx_data <- dams_all[, c("Year_Completed", "State")]
+## -----------------------------------------------------------------------------
+gfx_data <- nid_subset[, c("year_completed", "state")]
 
 head(gfx_data)
 
-## ------------------------------------------------------------------------
-gfx_data$Year <- cut(gfx_data$Year_Completed, 
+## -----------------------------------------------------------------------------
+gfx_data$year <- cut(gfx_data$year_completed, 
                      breaks = c(0, 1850, seq(1900, 2000, 10), 2014), 
                      labels = c("<1850", "1850-1900", "1910", "1920", "1930",
                               "1940", "1950", "1960", "1970", "1980", "1990", 
                               "2000", "2014"))
-table(gfx_data$Year)
+table(gfx_data$year)
 
-year_counts <- as.data.frame(table(gfx_data$Year), stringsAsFactors = FALSE)
+year_counts <- as.data.frame(table(gfx_data$year), stringsAsFactors = FALSE)
 colnames(year_counts) <- c("Year", "Count")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 gfx_bar <- ggplot(year_counts, aes(x = Year, y = Count))
 gfx_bar <- gfx_bar + geom_bar(position = "dodge", stat = "identity")
 gfx_bar <- gfx_bar + ylab("Number of Dams") + xlab("Year of Completion")
 gfx_bar <- gfx_bar + ggtitle("Number of Dams in the NID Database")
 
-## ----fig1plot, echo=FALSE, fig.width=8, fig.height=6,fig.align="center"----
+## ----fig1plot, echo=FALSE, fig.width=8, fig.height=6,fig.align="center"-------
 plot(gfx_bar)
 
-## ------------------------------------------------------------------------
-gfx_data <- subset(gfx_data, !(State %in% c("AK", "HI", "PR", "GU")))
-sort(table(gfx_data$State))
+## -----------------------------------------------------------------------------
+gfx_data <- subset(gfx_data, !(state %in% c("AK", "HI", "PR", "GU")))
+sort(table(gfx_data$state))
 
-## ------------------------------------------------------------------------
-state_counts <- as.data.frame(table(gfx_data$State), stringsAsFactors = FALSE)
+## -----------------------------------------------------------------------------
+state_counts <- as.data.frame(table(gfx_data$state), stringsAsFactors = FALSE)
 colnames(state_counts) <- c("state", "Count")
 
 # add long names of states
@@ -78,11 +76,11 @@ gfx_map <- gfx_map + guides(fill = guide_legend(title = "Number of Dams"))
 gfx_map <- gfx_map + scale_fill_brewer(palette = "Accent")
 gfx_map <- gfx_map + coord_map()
 
-## ----fig2plot, echo=FALSE, fig.height=6,fig.width=8----------------------
+## ----fig2plot, echo=FALSE, fig.height=6,fig.width=8---------------------------
 plot(gfx_map)
 
-## ------------------------------------------------------------------------
-flood_dams <- subset(dams_all, Primary_Purpose == "Flood Control")
+## -----------------------------------------------------------------------------
+flood_dams <- subset(nid_subset, length(grep("C", purposes)) > 0)
 
-table(flood_dams$State)
+table(flood_dams$state)
 
